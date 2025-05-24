@@ -1,28 +1,27 @@
+
 const express = require('express');
+const connectDB = require("./config/database")
 
 const app = express();
+const User = require("./models/user")
 
+app.post("/signup", async(req, res)=>{
+    const user = new User({
+        firstName: "rohit",
+        lastName: "mali",
+        emailId: "rm2193352.com",
+        password: "rohit1234"
+    });
+    await user.save();
+    res.send("user aagye oyeee");
+});
 
-
-app.get("/user",(req, res)=>{
-    res.send("kya bolti public")
-})
-  
-
-app.post("/user",(req, res)=>{
-    res.send("bantai ko lageli bhook")
-})
-
-app.delete("/user",(req, res)=>{
-    res.send("abrakadabra abrakadabra")
-})
-
-
-app.use("/user",(req,res)=>{
-    res.send("sorry sorry sorry !")
-})
-
-
-app.listen(9000,()=>{
+connectDB().then(()=>{
+    console.log("database connecy hogaya bhidu");
+    app.listen(9000,()=>{
     console.log("server run ho raha hai bantaiii")
 })
+}).catch((err)=>{
+    console.error("database connect nhi hai yaar")
+})
+ 
