@@ -5,16 +5,30 @@ const connectDB = require("./config/database")
 const app = express();
 const User = require("./models/user")
 
+
+app.use(express.json());
 app.post("/signup", async(req, res)=>{
-    const user = new User({
-        firstName: "rohit",
-        lastName: "mali",
-        emailId: "rm2193352.com",
-        password: "rohit1234"
-    });
+    const user = new User(req.body);
+    // const user = new User({
+        // firstName: "sachin",
+        // lastName: "tendulkar",
+        // emailId: "sachin93352.com",
+        // password: "sachin1234"
+    // });
     await user.save();
     res.send("user aagye oyeee");
 });
+
+app.get("/user", async(req, res)=>{
+    const Useremail = req.body.emailId;
+
+    const user = await User.findOne({emailId: Useremail});
+    if(!user){
+        res.status(404).send("user not found");
+    } else{
+        res.send(user);
+    }
+})
 
 connectDB().then(()=>{
     console.log("database connecy hogaya bhidu");
