@@ -28,7 +28,43 @@ app.get("/user", async(req, res)=>{
     } else{
         res.send(user);
     }
-})
+});
+
+app.get("/feed", async(req,res)=>{
+    const users = await User.find({});
+    if(!users){
+        res.status(404).send("user nahi mila");
+    }
+    else{
+         res.send(users);
+    }
+});
+
+app.delete("/user" , async(req, res)=>{
+    const id = req.body.id;
+
+    const user = await User.findByIdAndDelete(id);
+
+    if(!user){
+        res.status(404).send("user kaha hai.?")
+    }
+    else{
+        res.send("user deleted succesfully")
+    }
+});
+
+app.patch("/user", async(req,res)=>{
+    const Useremail = req.body.emailId;
+    const data = req.body;
+    const user = await User.findOneAndUpdate({emailId: Useremail},data,{returnDocument:"after",runValidators:true,} )
+    console.log(user)
+    if(!user){
+        res.status(404).send("kuch to gadbad hai")
+    }
+    else{
+        res.send("user update hogaya")
+    }
+});
 
 connectDB().then(()=>{
     console.log("database connecy hogaya bhidu");
