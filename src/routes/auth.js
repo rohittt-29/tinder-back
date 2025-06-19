@@ -4,28 +4,35 @@ const User = require("../models/user");
 const {validateSignupData} = require("../utils/validation")
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");  
+const { data } = require("react-router-dom");
+
 
 
 authRouter.post("/signup", async(req, res)=>{
     try{ validateSignupData(req)
  
 
-    const {firstName, LastName, emailId, password} = req.body
+    const {firstName, lastName, emailId, password} = req.body
 
     const passwordHash = await bcrypt.hash(password,10);
     console.log(passwordHash)
 
        const user = new User({
         firstName,
-        LastName,
+        lastName,
         emailId,
         password: passwordHash,
        });
 
-    await user.save();
-    res.send("user aagye oyeee");}
+    const savedUser = await user.save();
+     const token = await savedUser.getJwt();
+         res.cookie("token",token,{
+            expires: new Date(Date.now() + 8 + 3600000)
+         });
+    res.json({message:"user aagye oyeee", data: savedUser});}
     catch(err){
         res.status(400).send("Error: " + err.message)
+        // console.log(err)
     }
    
 });
@@ -48,7 +55,7 @@ authRouter.post("/login", async(req,res)=>{
 
         res.cookie("token",token)
 
-            res.send("Login hogaya");
+            res.send(user);
         }else{
             throw new Error("InValid Credentials")
         }

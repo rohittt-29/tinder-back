@@ -13,7 +13,8 @@ const userSchema = new mongoose.Schema({
         maxLength: 20,
     },
     lastName:{
-        type: String
+        type: String,
+         required: true,
     },
     emailId:{
     type: String,
@@ -54,7 +55,7 @@ const userSchema = new mongoose.Schema({
     },
     photoUrl:{
         type: String,
-        default: "https://tse2.mm.bing.net/th?id=OIP.NMpXvvWfENJhQGxRbTF5pwHaHa&pid=Api&P=0&h=180",
+        default: "https://i.kym-cdn.com/photos/images/original/001/857/748/54e.jpg",
     },
     about:{
         type: String,

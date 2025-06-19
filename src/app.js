@@ -4,7 +4,13 @@ const connectDB = require("./config/database")
 
 const app = express();
 const cookieParser = require("cookie-parser");
+const cors = require('cors')
 
+
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+}))
 app.use(express.json());
 app.use(cookieParser())
 
@@ -30,7 +36,7 @@ app.use("/", requestRouter);
 
 connectDB().then(()=>{
     console.log("database connecy hogaya bhidu");
-    app.listen(9000,()=>{
+    app.listen(9000,'0.0.0.0',()=>{
     console.log("server run ho raha hai bantaiii")
 })
 }).catch((err)=>{

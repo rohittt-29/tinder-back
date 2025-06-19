@@ -61,7 +61,7 @@ profileRouter.patch("/profile/forgetPassword", async(req, res)=>{
 
   await user.save();
 
-  console.log(passwordHash)
+  // console.log(passwordHash)
 
   res.send("password update hogaya , chal abh party de!")
 }

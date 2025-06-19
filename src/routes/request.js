@@ -76,7 +76,7 @@ request.status = status;
 const data = await request.save();
 res.json({message: " connection request" + status, data})
    }
-   catch{
+   catch(err){
       res.status(400).send("ERROR: " + err.message);
    }
 })
