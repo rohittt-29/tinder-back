@@ -5,7 +5,7 @@ const connectDB = require("./config/database")
 const app = express();
 const cookieParser = require("cookie-parser");
 const cors = require('cors')
-
+require('dotenv').config()
 
 app.use(cors({
     origin: "http://localhost:5173",
@@ -36,7 +36,7 @@ app.use("/", requestRouter);
 
 connectDB().then(()=>{
     console.log("database connecy hogaya bhidu");
-    app.listen(9000,'0.0.0.0',()=>{
+    app.listen(process.env.PORT,'0.0.0.0',()=>{
     console.log("server run ho raha hai bantaiii")
 })
 }).catch((err)=>{
