@@ -26,9 +26,12 @@ authRouter.post("/signup", async(req, res)=>{
 
     const savedUser = await user.save();
      const token = await savedUser.getJwt();
-         res.cookie("token",token,{
-            expires: new Date(Date.now() + 8 + 3600000)
-         });
+        res.cookie("token", token, {
+  httpOnly: true,
+  secure: true,
+  sameSite: "None",
+  expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+});
     res.json({message:"user aagye oyeee", data: savedUser});}
     catch(err){
         res.status(400).send("Error: " + err.message)
@@ -53,8 +56,12 @@ authRouter.post("/login", async(req,res)=>{
 
 
 
-        res.cookie("token",token)
-
+    res.cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+    expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+  });
             res.send(user);
         }else{
             throw new Error("InValid Credentials")
@@ -66,9 +73,12 @@ authRouter.post("/login", async(req,res)=>{
 });
 
 authRouter.post("/logout", async(req, res)=>{
-    res.cookie("token",null,{
-        expires: new Date(Date.now()),
-    });
+  res.cookie("token", null, {
+  httpOnly: true,
+  secure: true,
+  sameSite: "None",
+  expires: new Date(Date.now())
+});
     res.send("Logout Successfull")
 })
 
