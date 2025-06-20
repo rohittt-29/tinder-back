@@ -8,7 +8,8 @@ const cors = require('cors')
 require('dotenv').config()
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", 
+         "https://togetha-web.vercel.app"],
     credentials: true,
 }))
 app.use(express.json());
