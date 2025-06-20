@@ -4,7 +4,7 @@ const User = require("../models/user");
 const {validateSignupData} = require("../utils/validation")
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");  
-const { data } = require("react-router-dom");
+
 
 
 
