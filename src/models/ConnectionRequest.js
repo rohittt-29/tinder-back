@@ -1,6 +1,6 @@
 const { timeStamp } = require("console");
 const mongoose = require("mongoose");
-const { type } = require("os");
+
 
 const connectionRequestSchema = new mongoose.Schema({
     fromUserId:{

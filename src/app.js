@@ -4,7 +4,8 @@ const connectDB = require("./config/database")
 
 const app = express();
 const cookieParser = require("cookie-parser");
-const cors = require('cors')
+const cors = require('cors');
+const http = require("http");
 require('dotenv').config()
 
 app.use(cors({
@@ -19,26 +20,23 @@ const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/Profile");
 const requestRouter = require("./routes/request");
 const userRouter = require('./routes/user');
+const initializeSocket = require('./utils/socket');
+const chatRouter = require('./routes/chat');
 
 app.use("/", authRouter)
 app.use("/", profileRouter)
 app.use("/", requestRouter);
  app.use("/",userRouter);
+ app.use("/", chatRouter);
 
-
-
-
-
-
-
-
-
+const server = http.createServer(app);
+initializeSocket(server)
 
 
 connectDB().then(()=>{
-    console.log("database connecy hogaya bhidu");
-    app.listen(process.env.PORT,'0.0.0.0',()=>{
-    console.log("server run ho raha hai bantaiii")
+    console.log("database connected");
+    server.listen(process.env.PORT|| 3000,'0.0.0.0',()=>{
+    console.log("server run horaha hai😎")
 })
 }).catch((err)=>{
     console.error("database connect nhi hai yaar")
