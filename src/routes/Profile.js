@@ -19,6 +19,18 @@ profileRouter.get("/profile/view", UserAuth,async(req,res)=>{
     }
 });
 
+profileRouter.get("/profile/view/:id", async(req,res)=>{
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId).select("firstName , photoUrl");
+    if(!user) return res.status(404).send("User not found");
+    res.send(user);
+  } catch (err) {
+    console.log(err)
+    res.status(500).send("error: " + err.message)
+  }
+})
+
 profileRouter.patch("/profile/edit",UserAuth, async(req,res)=>{
     try{
   if(!validateProfileData(req)){
